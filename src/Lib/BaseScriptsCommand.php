@@ -135,6 +135,13 @@ abstract class BaseScriptsCommand extends LoggingCommand
                     $scriptFile);
                 exec($command, $commandOutput, $status);
                 
+                foreach($commandOutput as $key => $line) {
+                    $find_r = strrpos($line, "\r");
+                    if (false !== $find_r){
+                        $commandOutput[$key] = substr($line, $find_r+1);
+                    }
+                }
+                
                 $commandOutputString = substr("\n" . implode("\n", $commandOutput), 0, 500); // Let's limit the output
                 if (self::ERR_CODE_OK != $status) {
                     $this->err(
@@ -299,6 +306,13 @@ abstract class BaseScriptsCommand extends LoggingCommand
                     $model['clientSshArgs'],
                     $scriptFile);
                 exec($command, $commandOutput, $status);
+                
+                foreach($commandOutput as $key => $line) {
+                    $find_r = strrpos($line, "\r");
+                    if (false !== $find_r){
+                        $commandOutput[$key] = substr($line, $find_r+1);
+                    }
+                }
                 
                 $commandOutputString = substr("\n" . implode("\n", $commandOutput), 0, 500); // Let's limit the output
                 if (self::ERR_CODE_OK != $status) {
